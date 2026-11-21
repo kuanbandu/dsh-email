@@ -1,5 +1,6 @@
 # dsh-email — 让 DeepSeek Harness 收发你自己的邮箱
 
+[![npm](https://img.shields.io/npm/v/@kuanbandu/dsh-email.svg)](https://www.npmjs.com/package/@kuanbandu/dsh-email)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-plugin-6b4bf5.svg)](https://github.com/kuanbandu/dsh-email)
 
@@ -17,12 +18,14 @@ DeepSeek Harness（DSH）的邮件插件：**在 Web UI 的「设置 → 邮件�
 
 ## 安装
 
-### 方式一：Release 资产（一行命令，已验证）
+### 方式一：npm（推荐）
 
 ```bash
 cd ~/.dsh/profiles/web          # 你的 profile 目录
-pnpm add https://github.com/kuanbandu/dsh-email/releases/download/v0.1.0/kuanbandu-dsh-email-0.1.0.tgz
+pnpm add @kuanbandu/dsh-email
 ```
+
+或者干脆让 agent 装：**用 `plugin_manager` 的 `install_bundle` 安装 `@kuanbandu/dsh-email`**。
 
 再把包名加进同目录 `package.json` 的 `dsh.profile.bundles`：
 
@@ -34,7 +37,14 @@ pnpm add https://github.com/kuanbandu/dsh-email/releases/download/v0.1.0/kuanban
 
 重启一次 DSH（Host 半侧在启动时加载），刷新 Web UI 页面。
 
-### 方式二：从 git 装
+### 方式二：Release 资产（不走 npm registry）
+
+```bash
+cd ~/.dsh/profiles/web
+pnpm add https://github.com/kuanbandu/dsh-email/releases/latest/download/kuanbandu-dsh-email.tgz
+```
+
+### 方式三：从 git
 
 ```bash
 cd ~/.dsh/profiles/web
@@ -43,24 +53,6 @@ pnpm add git+https://github.com/kuanbandu/dsh-email.git
 
 > 若 `git` 连不上 GitHub（报 `GnuTLS, handshake failed`），多半是本机 git 走了不通 GitHub 的代理，加前缀强制直连：
 > `GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.proxy GIT_CONFIG_VALUE_0= pnpm add git+https://github.com/kuanbandu/dsh-email.git`
-
-### 方式三：clone 后让 agent 装
-
-```bash
-git clone https://github.com/kuanbandu/dsh-email.git ~/dsh-email
-```
-
-然后让 agent 用 `plugin_manager` 的 `install_bundle`，`target` 填 `/home/<你>/dsh-email` 这个绝对路径。
-
-### 方式四：npm（待发布）
-
-```bash
-cd ~/.dsh/profiles/<你的 profile>
-pnpm add @kuanbandu/dsh-email
-```
-
-或在 DSH 里说一句：**用 `plugin_manager` 的 `install_bundle` 安装 `@kuanbandu/dsh-email`**。
-发布状态见 [PUBLISHING.md](PUBLISHING.md)（账户开了 auth-and-writes 2FA，需要一次性 2FA 才能上传）。
 
 ## 登录
 

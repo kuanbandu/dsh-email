@@ -1,6 +1,6 @@
 {
   "name": "@kuanbandu/dsh-email",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Email for DeepSeek Harness: log in once in the Web UI, then read, search and send mail through agent tools (IMAP/SMTP, zero dependencies, proxy aware).",
   "type": "module",
   "main": "./index.js",
