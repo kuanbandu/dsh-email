@@ -1,0 +1,72 @@
+{
+  "name": "@kuanbandu/dsh-email",
+  "version": "0.1.0",
+  "description": "Email for DeepSeek Harness: log in once in the Web UI, then read, search and send mail through agent tools (IMAP/SMTP, zero dependencies, proxy aware).",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "lib",
+    "locale",
+    "docs",
+    "scripts",
+    "cordis.patch.yml",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "icon": "./icon.svg",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  },
+  "scripts": {
+    "test": "node scripts/selftest.mjs && node scripts/client-smoke.mjs",
+    "selftest": "node scripts/selftest.mjs",
+    "test:client": "node scripts/client-smoke.mjs",
+    "mock": "node scripts/mock-mail-server.mjs",
+    "verify:accounts": "node scripts/verify-accounts.mjs"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "email",
+    "imap",
+    "smtp",
+    "gmail",
+    "163",
+    "proton"
+  ],
+  "author": "kuanbandu",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuanbandu/dsh-email.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kuanbandu/dsh-email/issues"
+  },
+  "homepage": "https://github.com/kuanbandu/dsh-email#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

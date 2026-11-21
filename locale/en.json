@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Email (dsh-email)",
+    "description": "Log in once in Settings → Email, then read, search, and send mail through agent tools over IMAP/SMTP (Gmail, 163, Proton Bridge, Outlook, QQ, iCloud, custom)."
+  }
+}

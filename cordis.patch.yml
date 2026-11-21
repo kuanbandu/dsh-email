@@ -1,0 +1,16 @@
+# dsh-email 插件行：Host 半侧注册 email_* 工具 + 设置页 API 路由，
+# Client 半侧在 Web UI 里提供「邮件账号」登录/管理页。
+# 账号密码存放在本机凭据存储（credentials record），不进入模型上下文。
+- insert:
+    - id: dsh-email
+      name: dsh-email
+      config:
+        # 海外邮箱需要代理时在这里填（也可在设置页按账号覆盖）：
+        #   proxy: 127.0.0.1:7890
+        # 留空 = 全部直连。国内邮箱（163/126/QQ）、Proton Bridge、自建服务器
+        # 按 provider 预设默认直连。
+        proxy: ''
+        # 追加的直连主机（后缀匹配；回环地址、*.local 本来就直连）
+        proxyBypass: []
+        # 代理连不上时自动回退直连（多数代理节点会封 465/587）
+        routeFallback: true

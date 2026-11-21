@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "邮件（dsh-email）",
+    "description": "在「设置 → 邮件」里登录一次，harness 即可通过工具收发/检索邮件（IMAP/SMTP：Gmail、163、Proton Bridge、Outlook、QQ、iCloud、自定义）。"
+  }
+}
