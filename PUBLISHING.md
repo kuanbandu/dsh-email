@@ -13,6 +13,17 @@ pnpm add @kuanbandu/dsh-email
 > npm dist-tag add @kuanbandu/dsh-email@0.1.1 latest
 > ```
 
+## 长期备用：三条命令
+
+| 想做的事 | 命令 | 说明 |
+| --- | --- | --- |
+| 推代码到 GitHub | `git push` | 仓库本地已设 `http.proxy=""`（本机全局代理连不上 GitHub）；换机器时用 `git -c http.proxy= push` |
+| 提插件市场 PR | `bash scripts/open-registry-pr.sh` | 幂等：建 fork → 建分支 → 写条目 → 开 PR；`--dry-run` 只检查不写 |
+| 发新版本 | `bash scripts/release.sh patch` | 跑测试 → 升版本 → 打 tag → 推送 → CI 用 OIDC 发布（不需要 token） |
+
+已经排好的定时任务：仓库满 24 小时后自动执行一次 `open-registry-pr.sh`
+（`systemctl --user list-timers 'dsh-email-*'` 可查，日志在 `~/dsh-email/.registry-pr.log`）。
+
 ## 以后怎么发版（两种，任选）
 
 ### A. OIDC 无令牌发布（推荐，已配好 workflow）

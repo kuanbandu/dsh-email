@@ -7,3 +7,4 @@ accounts.json
 
 # release artifacts are attached to the GitHub release, not committed
 *.tgz
+.registry-pr.log
