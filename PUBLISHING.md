@@ -3,7 +3,19 @@
 > 这个仓库已经公开、可以安装；npm 上的 `@kuanbandu/dsh-email` **尚未发布**，
 > 因为账号开了 `auth-and-writes` 2FA，而发布必须过一道 OTP。
 
-## 需要拿到的东西（三选一，都只需做一次）
+## npm 状态：已发布 ✅
+
+`@kuanbandu/dsh-email` 已上线（latest = 0.1.1，含 `0.0.0-stage` 占位、0.1.0、0.1.1）。
+
+```bash
+pnpm add @kuanbandu/dsh-email
+```
+
+> 注意：首次发布时 `latest` 一度指向 npm 的暂存占位版本 `0.0.0-stage`，已用
+> `npm dist-tag add @kuanbandu/dsh-email@0.1.1 latest` 修正。若以后再遇到发布成功但
+> `npm view` 显示 `0.0.0-stage`，同样用 dist-tag 指回真实版本即可。
+
+## （备查）当初为拿到发布凭据的三条路
 
 npm 账号的 2FA 是「安全钥匙优先」。以下三条路任选：
 
@@ -81,7 +93,7 @@ category: identity
 description:
   en: 'Email for DeepSeek Harness: after one login in Settings → Email, the agent reads, searches, replies and sends mail through eight email_* tools. Reads use IMAP PEEK so messages are never marked as seen; passwords stay in the harness credential store; IMAP/SMTP can go through an HTTP CONNECT or SOCKS5 proxy with separate routes per direction.'
   zh: '给 DeepSeek Harness 装邮箱：在「设置 → 邮件」里登录一次后，agent 可用 8 个 email_* 工具读信、检索、回复、发信、等验证邮件、下载附件。读信用 IMAP PEEK，不会把邮件标记为已读；密码存在 harness 凭据库；IMAP/SMTP 可走 HTTP CONNECT 或 SOCKS5 代理，并支持收/发分别指定路由。'
-tarball: https://github.com/kuanbandu/dsh-email/releases/download/v0.1.0/kuanbandu-dsh-email-0.1.0.tgz
+tarball: https://github.com/kuanbandu/dsh-email/releases/latest/download/kuanbandu-dsh-email.tgz
 ```
 
 > 分类选 `identity`（"身份与通信"）。写作者自己的原话：分类选得不贴切不会被打回，维护者会直接改。
@@ -100,7 +112,7 @@ category: identity
 description:
   en: 'Email for DeepSeek Harness: after one login in Settings → Email, the agent reads, searches, replies and sends mail through eight email_* tools. Reads use IMAP PEEK so messages are never marked as seen; passwords stay in the harness credential store; IMAP/SMTP can go through an HTTP CONNECT or SOCKS5 proxy with separate routes per direction.'
   zh: '给 DeepSeek Harness 装邮箱：在「设置 → 邮件」里登录一次后，agent 可用 8 个 email_* 工具读信、检索、回复、发信、等验证邮件、下载附件。读信用 IMAP PEEK，不会把邮件标记为已读；密码存在 harness 凭据库；IMAP/SMTP 可走 HTTP CONNECT 或 SOCKS5 代理，并支持收/发分别指定路由。'
-tarball: https://github.com/kuanbandu/dsh-email/releases/download/v0.1.0/kuanbandu-dsh-email-0.1.0.tgz
+tarball: https://github.com/kuanbandu/dsh-email/releases/latest/download/kuanbandu-dsh-email.tgz
 YAML
 
 # 2) fork（不 clone）

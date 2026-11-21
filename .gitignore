@@ -4,3 +4,6 @@ node_modules/
 mail-attachments/
 accounts.json
 .credentials.yaml
+
+# release artifacts are attached to the GitHub release, not committed
+*.tgz
