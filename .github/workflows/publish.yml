@@ -1,6 +1,15 @@
-# 打 tag（v*）或手动触发时发布到 npm。
-# 需要先在仓库 Settings → Secrets and variables → Actions 里加一个 NPM_TOKEN
-# （npmjs.com → Access Tokens → Generate New Token → Classic → Automation）。
+# 打 tag（v*）或手动触发时发布到 npm —— 使用 Trusted Publishing (OIDC)，
+# 不需要在仓库里存任何 npm token。
+#
+# 一次性配置（在 npm 网页端做）：包页面 → Settings → Trusted Publisher →
+#   GitHub Actions
+#   Organization or user : kuanbandu
+#   Repository           : dsh-email
+#   Workflow filename    : publish.yml      ← 必须与本文件名完全一致
+#   Environment          : 留空
+# 配置完成后尽快打一次 tag（npm 会提示信任配置有有效期），
+# 成功发布后可在 Publishing access 里收紧为
+# 「Require two-factor authentication and disallow tokens」，彻底禁用传统 token 发布。
 name: publish
 
 on:
@@ -10,6 +19,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write # OIDC：让 npm 验证「这次发布确实来自本仓库的这个工作流」
 
 jobs:
   npm:
@@ -17,25 +27,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 注意：不要设置 registry-url —— 它会让 npm 退回传统 token 流程、跳过 OIDC 交换
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
 
-      - name: 需要 NPM_TOKEN
-        env:
-          TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          if [ -z "$TOKEN" ]; then
-            echo "::error::缺少仓库 secret NPM_TOKEN（Settings → Secrets → Actions）。"
-            echo "创建方式：npmjs.com → Access Tokens → Generate New Token → Classic → Automation"
-            exit 1
-          fi
+      - name: 升级 npm（OIDC 需要 >= 11.5.1）
+        run: npm install -g npm@^11.5.1 && npm --version
 
-      - name: 自检（不需要网络与凭据）
+      - name: 自检（无需网络与凭据）
         run: npm test
 
-      - name: 发布
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public
+      - name: 发布（OIDC + provenance，无 NODE_AUTH_TOKEN）
+        run: npm publish --access public --provenance

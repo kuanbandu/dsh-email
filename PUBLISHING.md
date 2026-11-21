@@ -1,19 +1,60 @@
 # 发布清单
 
-> 这个仓库已经公开、可以安装；npm 上的 `@kuanbandu/dsh-email` **尚未发布**，
-> 因为账号开了 `auth-and-writes` 2FA，而发布必须过一道 OTP。
+## 现状
 
-## npm 状态：已发布 ✅
-
-`@kuanbandu/dsh-email` 已上线（latest = 0.1.1，含 `0.0.0-stage` 占位、0.1.0、0.1.1）。
+`@kuanbandu/dsh-email` **已发布到 npm**：`0.1.0`、`0.1.1`，`latest = 0.1.1`。
 
 ```bash
 pnpm add @kuanbandu/dsh-email
 ```
 
-> 注意：首次发布时 `latest` 一度指向 npm 的暂存占位版本 `0.0.0-stage`，已用
-> `npm dist-tag add @kuanbandu/dsh-email@0.1.1 latest` 修正。若以后再遇到发布成功但
-> `npm view` 显示 `0.0.0-stage`，同样用 dist-tag 指回真实版本即可。
+> 首次发布遇到过 npm 的暂存占位：`latest` 一度指向 `0.0.0-stage`。修正命令：
+> ```bash
+> npm dist-tag add @kuanbandu/dsh-email@0.1.1 latest
+> ```
+
+## 以后怎么发版（两种，任选）
+
+### A. OIDC 无令牌发布（推荐，已配好 workflow）
+
+仓库里的 `.github/workflows/publish.yml` 已改为 Trusted Publishing：
+不需要任何 token，GitHub Actions 用 OIDC 向 npm 证明「我是这个仓库的这个工作流」。
+
+一次性配置（npm 网页端，只做一次）：
+包页面 → **Settings** → **Trusted Publisher** → **GitHub Actions**
+
+| 字段 | 填 |
+| --- | --- |
+| Organization or user | `kuanbandu` |
+| Repository | `dsh-email` |
+| Workflow filename | `publish.yml`（必须与文件名完全一致） |
+| Environment | 留空 |
+
+之后发版只要：
+
+```bash
+npm version patch          # 或 minor / major
+git push && git push --tags
+```
+
+CI 会跑 `npm test` 然后 `npm publish --access public --provenance`。
+成功发布后，建议在 **Publishing access** 里收紧为
+「Require two-factor authentication and disallow tokens」——从此任何传统 token 都不能发布。
+
+### B. 本地手动发布（需要一次性 2FA）
+
+见下面的历史记录：拿到 `Read and write (publish and stage)` 的 token 后
+
+```bash
+printf '//registry.npmjs.org/:_authToken=%s\n' 'npm_…' > ~/.npmrc-publish
+chmod 600 ~/.npmrc-publish
+npm publish --userconfig ~/.npmrc-publish
+rm -f ~/.npmrc-publish
+```
+
+> ⚠️ 不要在聊天/日志里贴 token。用完即删。
+
+---
 
 ## （备查）当初为拿到发布凭据的三条路
 
