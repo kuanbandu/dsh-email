@@ -57,3 +57,47 @@ rm -f ~/.npmrc-publish
 
 - 不要把 token / 恢复码贴进对话或 issue；只用文件、环境变量或仓库 secret。
 - 一旦某个 token 出现在日志或聊天里，立刻去 Access Tokens 页删除。
+
+---
+
+# 上架 DSH 插件市场（awesome-dsh-plugin）
+
+市场数据源：`awesome-dsh-plugin/awesome-dsh-plugin` 仓库里的 `data/plugins/<owner>__<repo>.yml`，
+一个插件一个文件，合并后自动生成 README 与 `plugins.json`。
+
+**本仓库已满足的条件**：`package.json` 声明了 `dsh.bundle`、有真实代码、已挂 `dsh-plugin` topic、
+Release 里挂了预构建 tgz（`tarball` 字段指向它）。
+
+**唯一还差的条件**：CI 要求 **仓库创建满 1 天**。仓库建于 2026-11-21，所以最早 **2026-11-22** 提 PR 才会变绿。
+
+## 条目文件（直接照抄）
+
+路径：`data/plugins/kuanbandu__dsh-email.yml`
+
+```yaml
+url: https://github.com/kuanbandu/dsh-email
+name: kuanbandu/dsh-email
+category: identity
+description:
+  en: 'Email for DeepSeek Harness: after one login in Settings → Email, the agent reads, searches, replies and sends mail through eight email_* tools. Reads use IMAP PEEK so messages are never marked as seen; passwords stay in the harness credential store; IMAP/SMTP can go through an HTTP CONNECT or SOCKS5 proxy with separate routes per direction.'
+  zh: '给 DeepSeek Harness 装邮箱：在「设置 → 邮件」里登录一次后，agent 可用 8 个 email_* 工具读信、检索、回复、发信、等验证邮件、下载附件。读信用 IMAP PEEK，不会把邮件标记为已读；密码存在 harness 凭据库；IMAP/SMTP 可走 HTTP CONNECT 或 SOCKS5 代理，并支持收/发分别指定路由。'
+tarball: https://github.com/kuanbandu/dsh-email/releases/download/v0.1.0/kuanbandu-dsh-email-0.1.0.tgz
+```
+
+> 分类选 `identity`（"身份与通信"）。写作者自己的原话：分类选得不贴切不会被打回，维护者会直接改。
+
+## 提 PR（仓库满 1 天后）
+
+```bash
+gh repo fork awesome-dsh-plugin/awesome-dsh-plugin --clone --remote
+cd awesome-dsh-plugin
+mkdir -p data/plugins
+# 把上面的 YAML 存成 data/plugins/kuanbandu__dsh-email.yml
+git checkout -b add-kuanbandu-dsh-email
+git add data/plugins/kuanbandu__dsh-email.yml
+git commit -m "feat(registry): add kuanbandu/dsh-email"
+git push -u origin add-kuanbandu-dsh-email
+gh pr create --title "feat(registry): add kuanbandu/dsh-email" --body "Adds kuanbandu/dsh-email: IMAP/SMTP email tools for the harness (8 email_* tools, PEEK reads, credential-store passwords, proxy aware). Prebuilt tarball attached to the v0.1.0 release."
+```
+
+审稿看的是：代码是否与描述一致（我们写的是 8 个工具、PEEK 读信、代理支持——都对得上）、分类是否贴切、是否已有同类条目、有没有可疑代码。
