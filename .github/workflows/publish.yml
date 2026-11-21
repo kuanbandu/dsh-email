@@ -1,0 +1,41 @@
+# 打 tag（v*）或手动触发时发布到 npm。
+# 需要先在仓库 Settings → Secrets and variables → Actions 里加一个 NPM_TOKEN
+# （npmjs.com → Access Tokens → Generate New Token → Classic → Automation）。
+name: publish
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: 需要 NPM_TOKEN
+        env:
+          TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::缺少仓库 secret NPM_TOKEN（Settings → Secrets → Actions）。"
+            echo "创建方式：npmjs.com → Access Tokens → Generate New Token → Classic → Automation"
+            exit 1
+          fi
+
+      - name: 自检（不需要网络与凭据）
+        run: npm test
+
+      - name: 发布
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
